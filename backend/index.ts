@@ -9,6 +9,7 @@ import debtorRoutes from "./routes/debtor.route.js"
 import invoiceRoutes from "./routes/externalInvoice.route.js"
 import salesRoutes from "./routes/sales.route.js"
 import stockRoutes from "./routes/stocks.route.js"
+import prisma from "./common/prisma.js"
 
 prisma.$connect()
   .then(() => console.log("✅ Database connected"))
@@ -48,15 +49,8 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() })
 })
 
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 1000,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
 // ✅ Routes
-app.use("/auth", authLimiter, authRoutes)
+app.use("/auth", authRoutes)
 app.use("/shop", shopRoutes)
 app.use("/dashboard", dashboardRoutes)
 app.use("/pos", posRoutes)
