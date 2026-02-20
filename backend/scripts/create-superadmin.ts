@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import prisma from "../common/prisma.ts"
+import prisma from "../common/prisma.js"
 
 const BCRYPT_ROUNDS = 12
 

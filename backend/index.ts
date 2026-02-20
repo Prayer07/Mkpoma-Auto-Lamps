@@ -10,13 +10,16 @@ import invoiceRoutes from "./routes/externalInvoice.route.js"
 import salesRoutes from "./routes/sales.route.js"
 import stockRoutes from "./routes/stocks.route.js"
 
+prisma.$connect()
+  .then(() => console.log("✅ Database connected"))
+  .catch(console.error)
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
 // ✅ Centralized allowed origins
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
+  "https://mkpoma-auto-lamps.onrender.com",
 ]
 
 // ✅ CORS configuration
@@ -45,8 +48,15 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() })
 })
 
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // ✅ Routes
-app.use("/auth", authRoutes)
+app.use("/auth", authLimiter, authRoutes)
 app.use("/shop", shopRoutes)
 app.use("/dashboard", dashboardRoutes)
 app.use("/pos", posRoutes)
