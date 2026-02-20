@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000
 
 // ✅ Centralized allowed origins
 const allowedOrigins = [
-  "https://mkpoma-auto-lamps.onrender.com",
+  "https://mkpomaautolamps.vercel.app",
 ]
 
 // ✅ CORS configuration
